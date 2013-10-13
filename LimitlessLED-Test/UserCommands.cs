@@ -9,13 +9,15 @@ namespace LimitlessLED_Test
     {
         // Connect to bridge
         static readonly string BridgeIpAddress = ConfigurationManager.AppSettings["ip"];
-        static readonly UdpClient UdpClient = new UdpClient(BridgeIpAddress, 50000);
+        static readonly int BridgePort = int.Parse(ConfigurationManager.AppSettings["port"]);
+        static readonly UdpClient UdpClient = new UdpClient(BridgeIpAddress, BridgePort);
 
         /// <summary>
         /// Shortcut to send UDP commands to the wifi bridge
         /// </summary>
         static void LedBridge(byte[] hexCommand)
         {
+            Console.WriteLine("Sending {0} to {1}:{2}", BitConverter.ToString(hexCommand), BridgeIpAddress, BridgePort);
             UdpClient.Send(hexCommand, 3);
         }
 
